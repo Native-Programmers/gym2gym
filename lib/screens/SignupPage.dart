@@ -289,13 +289,13 @@ class _SignUpPageState extends State<SignUpPage> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              content: StreamBuilder(
-                  stream: FirebaseFirestore.instance
+              content: FutureBuilder(
+                  future: FirebaseFirestore.instance
                       .collection("userinfo")
                       .where('city', isEqualTo: city)
-                      .orderBy('uid', descending: true)
+                      .orderBy('reg_date', descending: true)
                       .limit(1)
-                      .snapshots(),
+                      .get(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -404,7 +404,8 @@ class _SignUpPageState extends State<SignUpPage> {
                               onPressed: () async {
                                 // await FirebaseAuth.instance
                                 //     .createUserWithEmailAndPassword(
-                                //         email: email, password: password.text)
+                                //         email: 'abc@gmail.com',
+                                //         password: password.text)
                                 //     .then((value) => FirebaseFirestore.instance
                                 //             .collection('userinfo')
                                 //             .doc(id)
@@ -412,8 +413,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                 //           'id': id,
                                 //           'uid': uid,
                                 //           'city': city,
-                                //           'name': name,
-                                //           'phone': phoneNo,
+                                //           'name': 'name',
+                                //           'phone': 'phoneNo',
                                 //           'reg_date': Timestamp.fromDate(
                                 //               DateTime.now()),
                                 //         }));
@@ -548,9 +549,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                 //             .set({
                                 //           'id': id,
                                 //           'uid': uid,
-                                //           'city': city,
-                                //           'name': name,
-                                //           'phone': phoneNo,
+                                //           'city': 'city',
+                                //           'name': 'name',
+                                //           'phone': 'phoneNo',
                                 //           'reg_date': Timestamp.fromDate(
                                 //               DateTime.now()),
                                 //         }));
@@ -560,7 +561,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                     .set({
                                   'id': id,
                                   'uid': uid,
-                                  'city': 'city',
+                                  'city': city,
                                   'name': 'name',
                                   'phone': 'phoneNo',
                                   'reg_date':

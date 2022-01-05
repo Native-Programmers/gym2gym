@@ -402,41 +402,22 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                             ElevatedButton(
                               onPressed: () async {
-                                // await FirebaseAuth.instance
-                                //     .createUserWithEmailAndPassword(
-                                //         email: 'abc@gmail.com',
-                                //         password: password.text)
-                                //     .then((value) => FirebaseFirestore.instance
-                                //             .collection('userinfo')
-                                //             .doc(id)
-                                //             .set({
-                                //           'id': id,
-                                //           'uid': uid,
-                                //           'city': city,
-                                //           'name': 'name',
-                                //           'phone': 'phoneNo',
-                                //           'reg_date': Timestamp.fromDate(
-                                //               DateTime.now()),
-                                //         }));
-                                await FirebaseFirestore.instance
-                                    .collection('userinfo')
-                                    .doc(id)
-                                    .set({
-                                  'id': id,
-                                  'uid': uid,
-                                  'city': city,
-                                  'name': 'name',
-                                  'phone': 'phoneNo',
-                                  'reg_date':
-                                      Timestamp.fromDate(DateTime.now()),
-                                }).then((value) {
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                });
-                                setState() {
-                                  id = '';
-                                  uid = null;
-                                }
+                                await FirebaseAuth.instance
+                                    .createUserWithEmailAndPassword(
+                                        email: 'abc@gmail.com',
+                                        password: password.text)
+                                    .then((value) => FirebaseFirestore.instance
+                                            .collection('userinfo')
+                                            .doc(id)
+                                            .set({
+                                          'id': id,
+                                          'uid': uid,
+                                          'city': city,
+                                          'name': 'name',
+                                          'phone': 'phoneNo',
+                                          'reg_date': Timestamp.fromDate(
+                                              DateTime.now()),
+                                        }));
                               },
                               child: const Text('Submit Details'),
                             ),
@@ -539,38 +520,22 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                             ElevatedButton(
                               onPressed: () async {
-                                // await FirebaseAuth.instance
-                                //     .createUserWithEmailAndPassword(
-                                //         email: 'noumanfaiz.369@gmail.com',
-                                //         password: 'abcd1234')
-                                //     .then((value) => FirebaseFirestore.instance
-                                //             .collection('userinfo')
-                                //             .doc(id.toString())
-                                //             .set({
-                                //           'id': id,
-                                //           'uid': uid,
-                                //           'city': 'city',
-                                //           'name': 'name',
-                                //           'phone': 'phoneNo',
-                                //           'reg_date': Timestamp.fromDate(
-                                //               DateTime.now()),
-                                //         }));
-                                await FirebaseFirestore.instance
-                                    .collection('userinfo')
-                                    .doc(id)
-                                    .set({
-                                  'id': id,
-                                  'uid': uid,
-                                  'city': city,
-                                  'name': 'name',
-                                  'phone': 'phoneNo',
-                                  'reg_date':
-                                      Timestamp.fromDate(DateTime.now()),
-                                });
-                                setState() {
-                                  id = '';
-                                  uid = null;
-                                }
+                                await FirebaseAuth.instance
+                                    .createUserWithEmailAndPassword(
+                                        email: 'noumanfaiz.369@gmail.com',
+                                        password: 'abcd1234')
+                                    .then((value) => FirebaseFirestore.instance
+                                            .collection('userinfo')
+                                            .doc(id.toString())
+                                            .set({
+                                          'id': id,
+                                          'uid': uid,
+                                          'city': city,
+                                          'name': 'name',
+                                          'phone': 'phoneNo',
+                                          'reg_date': Timestamp.fromDate(
+                                              DateTime.now()),
+                                        }));
                               },
                               child: const Text('Submit Details'),
                             ),

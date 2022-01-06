@@ -30,7 +30,7 @@ class LoginButton extends StatelessWidget {
             width: screenWidth,
             height: 100,
             alignment: Alignment.center,
-            child: Text(
+            child: const Text(
               'SignIn',
               style: TextStyle(fontSize: 24, fontStyle: FontStyle.italic),
             ),

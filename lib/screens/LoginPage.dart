@@ -7,6 +7,7 @@ import 'package:gymtogym/Buttons/CreateAccountButton.dart';
 // import 'package:gymtogym/Buttons/LoginButton.dart';
 import 'package:gymtogym/ProjectAssets/functions.dart';
 import 'package:flutter/material.dart';
+import 'package:gymtogym/screens/SignupPage.dart';
 import '../main.dart';
 
 bool hide = true;
@@ -55,10 +56,14 @@ class _signInPageState extends State<signInPage> {
                   textAlign: TextAlign.center,
                   controller: _id,
                   enabled: isIdActive,
-                  onEditingComplete: () {
+                  onChanged: (value) {
+                    if (value.length >= 8) {}
+                  },
+                  onEditingComplete: () async {
+                    EasyLoading.show();
+
                     try {
-                      EasyLoading.show();
-                      fdata
+                      await fdata
                           .collection('userinfo')
                           .doc(_id.text)
                           .get()
@@ -68,14 +73,15 @@ class _signInPageState extends State<signInPage> {
                           isPasswordActive = true;
                           isIdActive = false;
                         });
-                        print(user_email);
                         EasyLoading.showSuccess('User found');
                         return;
                       }).onError((error, stackTrace) {
+                        EasyLoading.dismiss();
                         EasyLoading.showError('Unable to locate user');
                       });
                     } catch (e) {
                       EasyLoading.showError(e.toString());
+                      EasyLoading.dismiss();
                     }
                   },
                   decoration: InputDecoration(
@@ -162,7 +168,10 @@ class _signInPageState extends State<signInPage> {
                 ),
               ),
               getSizedBox(20),
-              ElevatedButton(
+              SizedBox(
+                width: screenWidth / 1.4,
+                height: 45,
+                child: ElevatedButton(
                   onPressed: () async {
                     try {
                       if (_formKey.currentState!.validate()) {
@@ -176,11 +185,12 @@ class _signInPageState extends State<signInPage> {
                               .then(
                                 (value) =>
                                     EasyLoading.showSuccess('Login Successful')
-                                        .onError(
-                                  (error, stackTrace) => EasyLoading.showError(
+                                        .onError((error, stackTrace) {
+                                  EasyLoading.showError(
                                     error.toString(),
-                                  ),
-                                ),
+                                  );
+                                  EasyLoading.dismiss();
+                                }),
                               );
                         } on FirebaseAuthException catch (e) {
                           if (e.code == 'user-not-found') {
@@ -194,7 +204,28 @@ class _signInPageState extends State<signInPage> {
                       print(e);
                     }
                   },
-                  child: const Text('SIGN IN')),
+                  style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40))),
+                  child: Ink(
+                    decoration: BoxDecoration(
+                        gradient:
+                            LinearGradient(colors: [buttonOne, buttonTwo]),
+                        borderRadius: BorderRadius.circular(40)),
+                    child: Container(
+                      width: screenWidth,
+                      height: 100,
+                      alignment: Alignment.center,
+                      child: const Text(
+                        'SignIn',
+                        style: TextStyle(
+                            fontSize: 24, fontStyle: FontStyle.italic),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               // const LoginButton(),
               const Divider(
                 height: 15,
@@ -206,7 +237,38 @@ class _signInPageState extends State<signInPage> {
                 child: const Text('Forgotten Password ?'),
               ),
               getDivider(50, 1.5),
-              const CreateAccountButton(),
+              SizedBox(
+                width: screenWidth / 1.1,
+                height: 45,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignUpPage()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40))),
+                  child: Ink(
+                    decoration: BoxDecoration(
+                        gradient:
+                            LinearGradient(colors: [buttonOne, buttonTwo]),
+                        borderRadius: BorderRadius.circular(40)),
+                    child: Container(
+                      width: screenWidth,
+                      height: 100,
+                      alignment: Alignment.center,
+                      child: const Text(
+                        'Create a new account',
+                        style: TextStyle(
+                            fontSize: 24, fontStyle: FontStyle.italic),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

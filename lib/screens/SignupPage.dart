@@ -8,6 +8,19 @@ import 'package:flutter/material.dart';
 // import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 
+final name = TextEditingController();
+final fName = TextEditingController();
+final dob = TextEditingController();
+final email = TextEditingController();
+final password = TextEditingController();
+final province = TextEditingController();
+final phoneNo = TextEditingController();
+final district = TextEditingController();
+final area = TextEditingController();
+String dropdownValue = 'Male';
+String _dropdownValue = 'LHR';
+var reg_date = DateTime.now();
+
 class SignUpPage extends StatefulWidget {
   SignUpPage({Key? key}) : super(key: key);
 
@@ -18,26 +31,10 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
 
-  final name = TextEditingController();
-  final fName = TextEditingController();
-  final dob = TextEditingController();
-  final email = TextEditingController();
-  final password = TextEditingController();
-  // final city = TextEditingController();
-  final province = TextEditingController();
-  // final gender = TextEditingController();
-  final phoneNo = TextEditingController();
-  final district = TextEditingController();
-  final area = TextEditingController();
-  String dropdownValue = 'Male';
-  String _dropdownValue = 'LHR';
-  var reg_date = DateTime.now();
-
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
-    // gender.text = 'Male';
     void dispose() {
       super.dispose();
     }
@@ -57,7 +54,6 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               getTextField('Enter your name', name),
               getTextField('Enter your father name', fName),
-              // getTextField('Enter your D-O-B', dob),
               getTextField('Enter your email', email),
               getTextField('Enter your password', password),
               //for searchable city picker
@@ -230,12 +226,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         const SnackBar(content: Text('Processing Data')),
                       );
                       if (mounted) {
-                        registerUser(
-                            name: name.text,
-                            fname: fName.text,
-                            email: email.text,
-                            mobile: phoneNo.text,
-                            city: _dropdownValue);
+                        registerUser(city: _dropdownValue);
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -277,12 +268,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Future<void> registerUser(
-      {required String name,
-      required String fname,
-      required String email,
-      required String mobile,
-      required String city}) async {
+  Future<void> registerUser({required String city}) async {
     showDialog(
       context: context,
       builder: (context) {
@@ -413,8 +399,11 @@ class _SignUpPageState extends State<SignUpPage> {
                                           'id': id,
                                           'uid': uid,
                                           'city': city,
-                                          'name': 'name',
-                                          'phone': 'phoneNo',
+                                          'name': name.text,
+                                          'fname': fName.text,
+                                          'gender': dropdownValue,
+                                          'phone': phoneNo.text,
+                                          'email': email.text,
                                           'reg_date': Timestamp.fromDate(
                                               DateTime.now()),
                                         }));

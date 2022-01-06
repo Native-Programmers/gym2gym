@@ -7,6 +7,7 @@ import 'package:gymtogym/main.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 final name = TextEditingController();
 final fName = TextEditingController();
@@ -19,6 +20,7 @@ final district = TextEditingController();
 final area = TextEditingController();
 String dropdownValue = 'Male';
 String _dropdownValue = 'LHR';
+bool isVerified = false;
 var reg_date = DateTime.now();
 
 class SignUpPage extends StatefulWidget {
@@ -209,7 +211,24 @@ class _SignUpPageState extends State<SignUpPage> {
                 height: 50,
                 color: Colors.transparent,
               ),
-              getTextField('Enter your phone no', phoneNo),
+              Row(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: getTextField('Enter your phone no', phoneNo),
+                  ),
+                  IconButton(
+                    icon: isVerified
+                        ? const FaIcon(
+                            FontAwesomeIcons.exclamationTriangle,
+                            color: Colors.red,
+                          )
+                        : const FaIcon(FontAwesomeIcons.checkCircle,
+                            color: Colors.green),
+                    onPressed: () {},
+                  )
+                ],
+              ),
               getTextField('Enter your district', district),
               getTextField('Enter your area', area),
               const Divider(

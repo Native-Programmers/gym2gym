@@ -3,8 +3,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:gymtogym/Buttons/CreateAccountButton.dart';
-// import 'package:gymtogym/Buttons/LoginButton.dart';
 import 'package:gymtogym/ProjectAssets/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:gymtogym/screens/SignupPage.dart';
@@ -56,8 +54,32 @@ class _signInPageState extends State<signInPage> {
                   textAlign: TextAlign.center,
                   controller: _id,
                   enabled: isIdActive,
-                  onChanged: (value) {
-                    if (value.length >= 8) {}
+                  onChanged: (value) async {
+                    if (value.length >= 8) {
+                      EasyLoading.show();
+
+                      try {
+                        await fdata
+                            .collection('userinfo')
+                            .doc(_id.text)
+                            .get()
+                            .then((value) {
+                          setState(() {
+                            user_email = value['email'];
+                            isPasswordActive = true;
+                            isIdActive = false;
+                          });
+                          EasyLoading.showSuccess('User found');
+                          return;
+                        }).onError((error, stackTrace) {
+                          EasyLoading.dismiss();
+                          EasyLoading.showError('Unable to locate user');
+                        });
+                      } catch (e) {
+                        EasyLoading.showError(e.toString());
+                        EasyLoading.dismiss();
+                      }
+                    }
                   },
                   onEditingComplete: () async {
                     EasyLoading.show();

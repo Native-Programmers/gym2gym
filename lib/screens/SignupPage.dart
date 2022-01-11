@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:dropdown_search/dropdown_search.dart';
-// import 'package:firebase_core/firebase_core.dart';
+import 'package:dropdown_search/dropdown_search.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:gymtogym/main.dart';
@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 // import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:otp_text_field/otp_field.dart';
+import 'package:otp_text_field/style.dart';
 
 final name = TextEditingController();
 final fName = TextEditingController();
@@ -44,10 +46,7 @@ class _SignUpPageState extends State<SignUpPage> {
       super.dispose();
     }
 
-    void initState() {
-      super.initState();
-    }
-
+    void initState() {}
     return Scaffold(
       backgroundColor: bgColor,
       body: SingleChildScrollView(
@@ -224,27 +223,16 @@ class _SignUpPageState extends State<SignUpPage> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 2,
                     child: Center(
-                      child: InternationalPhoneNumberInput(
-                        onInputChanged: (PhoneNumber number) {
-                          print(number.phoneNumber.toString());
-                        },
-                        onInputValidated: (bool value) {
-                          print(value);
-                        },
-                        selectorConfig: const SelectorConfig(
-                          selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                      child: IntlPhoneField(
+                        decoration: const InputDecoration(
+                          labelText: 'Phone Number',
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(),
+                          ),
                         ),
-                        ignoreBlank: false,
-                        autoValidateMode: AutovalidateMode.disabled,
-                        selectorTextStyle: const TextStyle(color: Colors.black),
-                        initialValue: number,
-                        textFieldController: phoneNo,
-                        formatInput: true,
-                        keyboardType: const TextInputType.numberWithOptions(
-                            signed: true, decimal: true),
-                        inputBorder: const OutlineInputBorder(),
-                        onSaved: (PhoneNumber number) {
-                          mobile = number.phoneNumber;
+                        initialCountryCode: 'PK',
+                        onChanged: (phone) {
+                          mobile = phone.completeNumber;
                         },
                       ),
                     ),
@@ -270,10 +258,85 @@ class _SignUpPageState extends State<SignUpPage> {
                                             Navigator.pop(context);
                                           }),
                                     ))
-                            : (
-                            (kIsWeb?await _auth
-                                .signInWithPhoneNumber('+923371417699'):await _auth.verifyPhoneNumber(phoneNumber: mobile, verificationCompleted: verificationCompleted, verificationFailed: verificationFailed, codeSent: codeSent, codeAutoRetrievalTimeout: codeAutoRetrievalTimeout));
-                            
+                            : (kIsWeb
+                                ? (await _auth
+                                    .signInWithPhoneNumber(mobile.toString())
+                                    .then((value) {
+                                    TextEditingController otp =
+                                        TextEditingController();
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          bool isChecked = false;
+                                          return StatefulBuilder(
+                                              builder: (context, setState) {
+                                            return AlertDialog(
+                                              content: OTPTextField(
+                                                length: 6,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                fieldWidth: 80,
+                                                style: TextStyle(fontSize: 17),
+                                                textFieldAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                fieldStyle:
+                                                    FieldStyle.underline,
+                                                onCompleted: (pin) async {
+                                                  await value
+                                                      .confirm(otp.text)
+                                                      .then((value) =>
+                                                          print(value))
+                                                      .onError(
+                                                          (error, stackTrace) =>
+                                                              print(error));
+                                                },
+                                              ),
+                                              title: const Text(
+                                                'OTP',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              actions: <Widget>[
+                                                InkWell(
+                                                  child: const Text('OK'),
+                                                  onTap: () async {
+                                                    if (otp.text.length == 6) {
+                                                      await value
+                                                          .confirm(otp.text)
+                                                          .then((value) =>
+                                                              print(value))
+                                                          .onError((error,
+                                                                  stackTrace) =>
+                                                              print(error));
+                                                    }
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          });
+                                        });
+                                  }))
+                                : (await _auth.verifyPhoneNumber(
+                                    phoneNumber: mobile.toString(),
+                                    verificationFailed:
+                                        (FirebaseAuthException e) {
+                                      if (e.code == 'invalid-phone-number') {
+                                        print(
+                                            'The provided phone number is not valid.');
+                                      } else {
+                                        print(e.code);
+                                      }
+                                    },
+                                    codeSent: (String verificationId,
+                                        int? forceResendingToken) {},
+                                    verificationCompleted: (PhoneAuthCredential
+                                        phoneAuthCredential) {},
+                                    codeAutoRetrievalTimeout:
+                                        (String verificationId) {},
+                                  ))));
                       }),
                 ],
               ),

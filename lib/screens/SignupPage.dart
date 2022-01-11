@@ -270,8 +270,10 @@ class _SignUpPageState extends State<SignUpPage> {
                                             Navigator.pop(context);
                                           }),
                                     ))
-                            : (await _auth
-                                .signInWithPhoneNumber('+923371417699')));
+                            : (
+                            (kIsWeb?await _auth
+                                .signInWithPhoneNumber('+923371417699'):await _auth.verifyPhoneNumber(phoneNumber: mobile, verificationCompleted: verificationCompleted, verificationFailed: verificationFailed, codeSent: codeSent, codeAutoRetrievalTimeout: codeAutoRetrievalTimeout));
+                            
                       }),
                 ],
               ),

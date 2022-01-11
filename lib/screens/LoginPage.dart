@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gymtogym/ProjectAssets/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:gymtogym/screens/SignupPage.dart';
@@ -53,59 +54,31 @@ class _signInPageState extends State<signInPage> {
                 child: TextFormField(
                   textAlign: TextAlign.center,
                   controller: _id,
-                  enabled: isIdActive,
-                  onChanged: (value) async {
-                    if (value.length >= 8) {
-                      EasyLoading.show();
+                  // onChanged: (value) async {
+                  //   if (value.length >= 8) {
+                  //     try {
+                  //       await fdata
+                  //           .collection('userinfo')
+                  //           .doc(_id.text)
+                  //           .get()
+                  //           .then((value) {
+                  //         setState(() {
+                  //           user_email = value['email'];
+                  //           isPasswordActive = true;
+                  //         });
+                  //         EasyLoading.showSuccess('User found');
+                  //         return;
+                  //       }).onError((error, stackTrace) {
+                  //         EasyLoading.dismiss();
+                  //         EasyLoading.showError('Unable to locate user');
+                  //       });
+                  //     } catch (e) {
+                  //       EasyLoading.showError(e.toString());
+                  //       EasyLoading.dismiss();
+                  //     }
+                  //   }
+                  // },
 
-                      try {
-                        await fdata
-                            .collection('userinfo')
-                            .doc(_id.text)
-                            .get()
-                            .then((value) {
-                          setState(() {
-                            user_email = value['email'];
-                            isPasswordActive = true;
-                            isIdActive = false;
-                          });
-                          EasyLoading.showSuccess('User found');
-                          return;
-                        }).onError((error, stackTrace) {
-                          EasyLoading.dismiss();
-                          EasyLoading.showError('Unable to locate user');
-                        });
-                      } catch (e) {
-                        EasyLoading.showError(e.toString());
-                        EasyLoading.dismiss();
-                      }
-                    }
-                  },
-                  onEditingComplete: () async {
-                    EasyLoading.show();
-
-                    try {
-                      await fdata
-                          .collection('userinfo')
-                          .doc(_id.text)
-                          .get()
-                          .then((value) {
-                        setState(() {
-                          user_email = value['email'];
-                          isPasswordActive = true;
-                          isIdActive = false;
-                        });
-                        EasyLoading.showSuccess('User found');
-                        return;
-                      }).onError((error, stackTrace) {
-                        EasyLoading.dismiss();
-                        EasyLoading.showError('Unable to locate user');
-                      });
-                    } catch (e) {
-                      EasyLoading.showError(e.toString());
-                      EasyLoading.dismiss();
-                    }
-                  },
                   decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(
                           vertical: 3, horizontal: 10),
@@ -140,11 +113,13 @@ class _signInPageState extends State<signInPage> {
                 ),
               ),
               getSizedBox(3),
+
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: TextFormField(
                   obscureText: hide,
-                  enabled: isPasswordActive,
+                  textAlign: TextAlign.center,
+                  // enabled: isPasswordActive,
                   controller: _password,
                   decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(
@@ -194,36 +169,34 @@ class _signInPageState extends State<signInPage> {
                 width: screenWidth / 1.4,
                 height: 45,
                 child: ElevatedButton(
-                  onPressed: () async {
-                    try {
-                      if (_formKey.currentState!.validate()) {
-                        EasyLoading.show();
-                        try {
-                          auth
-                              .signInWithEmailAndPassword(
-                                email: user_email.toString().trim(),
-                                password: _password.text,
-                              )
-                              .then(
-                                (value) =>
-                                    EasyLoading.showSuccess('Login Successful')
-                                        .onError((error, stackTrace) {
-                                  EasyLoading.showError(
-                                    error.toString(),
-                                  );
-                                  EasyLoading.dismiss();
-                                }),
-                              );
-                        } on FirebaseAuthException catch (e) {
-                          if (e.code == 'user-not-found') {
-                            print('No user found for that email.');
-                          } else if (e.code == 'wrong-password') {
-                            print('Wrong password provided for that user.');
-                          }
-                        }
-                      }
-                    } catch (e) {
-                      print(e);
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      showDialog(
+                          context: context,
+                          builder: (_) => AlertDialog(
+                                backgroundColor: Colors.transparent,
+                                elevation: 0,
+                                content: SpinKitFadingCircle(
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Container(
+                                      color: Colors.black.withAlpha(25),
+                                      height:
+                                          MediaQuery.of(context).size.height,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: DecoratedBox(
+                                        decoration: BoxDecoration(
+                                          color: index.isEven
+                                              ? Colors.red
+                                              : Colors.green,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ));
+                      signInUser(id: _id.text, password: _password.text)
+                          .then((value) => EasyLoading.dismiss());
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -296,5 +269,50 @@ class _signInPageState extends State<signInPage> {
         ),
       ),
     );
+  }
+
+  Future<void> signInUser(
+      {required String id, required String password}) async {
+    try {
+      await fdata.collection('userinfo').doc(id).get().then((data) {
+        try {
+          auth
+              .signInWithEmailAndPassword(
+            email: data['email'].toString().trim(),
+            password: password,
+          )
+              .then((value) {
+            // Navigator.pop(context);
+            EasyLoading.showSuccess('Login Successful');
+
+            Future.delayed(Duration(seconds: 3), () {
+              EasyLoading.dismiss();
+            });
+          }).onError((error, stackTrace) {
+            EasyLoading.showError(
+              error.toString(),
+            );
+            EasyLoading.dismiss();
+          });
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'user-not-found') {
+            print('No user found for that email.');
+          } else if (e.code == 'wrong-password') {
+            print('Wrong password provided for that user.');
+          }
+        }
+        return;
+      }).onError((error, stackTrace) {
+        EasyLoading.showError('Unable to locate user');
+        Future.delayed(Duration(seconds: 2), () {
+          EasyLoading.dismiss();
+        });
+      });
+    } catch (e) {
+      Future.delayed(Duration(seconds: 2), () {
+        EasyLoading.showError('Something went wrong');
+        EasyLoading.dismiss();
+      });
+    }
   }
 }

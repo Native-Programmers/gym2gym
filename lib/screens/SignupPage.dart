@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dropdown_search/dropdown_search.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:dropdown_search/dropdown_search.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:gymtogym/main.dart';
@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 final name = TextEditingController();
 final fName = TextEditingController();
@@ -22,6 +23,7 @@ String dropdownValue = 'Male';
 String _dropdownValue = 'LHR';
 bool isVerified = false;
 var reg_date = DateTime.now();
+var number, mobile;
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({Key? key}) : super(key: key);
@@ -32,6 +34,7 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +44,10 @@ class _SignUpPageState extends State<SignUpPage> {
       super.dispose();
     }
 
-    void initState() {}
+    void initState() {
+      super.initState();
+    }
+
     return Scaffold(
       backgroundColor: bgColor,
       body: SingleChildScrollView(
@@ -212,21 +218,61 @@ class _SignUpPageState extends State<SignUpPage> {
                 color: Colors.transparent,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 2,
-                    child: getTextField('Enter your phone no', phoneNo),
+                    child: Center(
+                      child: InternationalPhoneNumberInput(
+                        onInputChanged: (PhoneNumber number) {
+                          print(number.phoneNumber.toString());
+                        },
+                        onInputValidated: (bool value) {
+                          print(value);
+                        },
+                        selectorConfig: const SelectorConfig(
+                          selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                        ),
+                        ignoreBlank: false,
+                        autoValidateMode: AutovalidateMode.disabled,
+                        selectorTextStyle: const TextStyle(color: Colors.black),
+                        initialValue: number,
+                        textFieldController: phoneNo,
+                        formatInput: true,
+                        keyboardType: const TextInputType.numberWithOptions(
+                            signed: true, decimal: true),
+                        inputBorder: const OutlineInputBorder(),
+                        onSaved: (PhoneNumber number) {
+                          mobile = number.phoneNumber;
+                        },
+                      ),
+                    ),
                   ),
                   IconButton(
-                    icon: isVerified
-                        ? const FaIcon(
-                            FontAwesomeIcons.exclamationTriangle,
-                            color: Colors.red,
-                          )
-                        : const FaIcon(FontAwesomeIcons.checkCircle,
-                            color: Colors.green),
-                    onPressed: () {},
-                  )
+                      icon: isVerified
+                          ? const FaIcon(
+                              FontAwesomeIcons.checkCircle,
+                              color: Colors.green,
+                            )
+                          : const FaIcon(FontAwesomeIcons.exclamationTriangle,
+                              color: Colors.red),
+                      onPressed: () async {
+                        (isVerified
+                            ? showDialog(
+                                context: context,
+                                builder: (_) => AlertDialog(
+                                      title: const Text(
+                                          'Mobile number already verified'),
+                                      content: IconButton(
+                                          icon: const Icon(Icons.close),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          }),
+                                    ))
+                            : (await _auth
+                                .signInWithPhoneNumber('+923371417699')));
+                      }),
                 ],
               ),
               getTextField('Enter your district', district),
@@ -407,9 +453,9 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                             ElevatedButton(
                               onPressed: () async {
-                                await FirebaseAuth.instance
+                                await _auth
                                     .createUserWithEmailAndPassword(
-                                        email: 'abc@gmail.com',
+                                        email: email.text,
                                         password: password.text)
                                     .then((value) => FirebaseFirestore.instance
                                             .collection('userinfo')
@@ -528,10 +574,10 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                             ElevatedButton(
                               onPressed: () async {
-                                await FirebaseAuth.instance
+                                await _auth
                                     .createUserWithEmailAndPassword(
-                                        email: 'noumanfaiz.369@gmail.com',
-                                        password: 'abcd1234')
+                                        email: email.text,
+                                        password: password.text)
                                     .then((value) => FirebaseFirestore.instance
                                             .collection('userinfo')
                                             .doc(id.toString())
@@ -539,8 +585,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                           'id': id,
                                           'uid': uid,
                                           'city': city,
-                                          'name': 'name',
-                                          'phone': 'phoneNo',
+                                          'name': name.text,
+                                          'phone': phoneNo.text,
+                                          'email': email.text,
                                           'reg_date': Timestamp.fromDate(
                                               DateTime.now()),
                                         }));

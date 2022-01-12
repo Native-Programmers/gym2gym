@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 
 import '../main.dart';
 
+var screenHeight, screenWidth;
+
 class LoginButton extends StatelessWidget {
   const LoginButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    screenWidth = MediaQuery.of(context).size.width;
+    screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
       width: screenWidth / 1.4,
       height: 45,

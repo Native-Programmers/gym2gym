@@ -52,6 +52,7 @@ dependencies:
   intl_phone_field: ^2.1.0
   otp_text_field: ^1.1.1
   get: ^4.6.1
+  lottie: ^1.2.1
 
 dev_dependencies:
   flutter_test:

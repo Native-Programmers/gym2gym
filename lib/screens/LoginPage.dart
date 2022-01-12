@@ -1,16 +1,15 @@
 // ignore_for_file: camel_case_types
-// import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/route_manager.dart';
 import 'package:gymtogym/ProjectAssets/functions.dart';
 import 'package:flutter/material.dart';
-import 'package:gymtogym/Services/authService.dart';
+import 'package:gymtogym/Services/authController.dart';
 import 'package:gymtogym/screens/SignupPage.dart';
+import 'package:lottie/lottie.dart';
 import '../main.dart';
 
 bool hide = true;
@@ -21,15 +20,22 @@ var isIdActive = true;
 var user_email;
 var auth, fdata;
 
-class singInPage extends GetWidget {
+class signInPage extends StatefulWidget {
+  const signInPage({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
+  _signInPageState createState() => _signInPageState();
 }
 
-class signInPage extends GetWidget<AuthService> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+class _signInPageState extends State<signInPage> {
+  final _formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    auth = FirebaseAuth.instance;
+    fdata = FirebaseFirestore.instance;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
@@ -114,7 +120,9 @@ class signInPage extends GetWidget<AuthService> {
                       ),
                       suffixIcon: IconButton(
                         onPressed: () {
-                          hide = !hide;
+                          setState(() {
+                            hide = !hide;
+                          });
                         },
                         icon: Icon(hide
                             ? Icons.remove_red_eye
@@ -142,30 +150,16 @@ class signInPage extends GetWidget<AuthService> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       showDialog(
-                          context: context,
-                          builder: (_) => AlertDialog(
-                                backgroundColor: Colors.transparent,
-                                elevation: 0,
-                                content: SpinKitFadingCircle(
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return Container(
-                                      color: Colors.black.withAlpha(25),
-                                      height:
-                                          MediaQuery.of(context).size.height,
-                                      width: MediaQuery.of(context).size.width,
-                                      child: DecoratedBox(
-                                        decoration: BoxDecoration(
-                                          color: index.isEven
-                                              ? Colors.red
-                                              : Colors.green,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ));
-                      controller.login(id: _id.text, password: _password.text);
+                        context: context,
+                        builder: (_) => AlertDialog(
+                            backgroundColor: Colors.transparent,
+                            elevation: 0,
+                            content: Container(
+                              child: Lottie.asset('assets/gifs/dumbell.json'),
+                            )),
+                      );
+                      AuthController.authInstance
+                          .login(id: _id.text.trim(), password: _password.text);
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -174,8 +168,8 @@ class signInPage extends GetWidget<AuthService> {
                           borderRadius: BorderRadius.circular(40))),
                   child: Ink(
                     decoration: BoxDecoration(
-                        gradient:
-                            LinearGradient(colors: [buttonOne, buttonTwo]),
+                        gradient: const LinearGradient(
+                            colors: [buttonOne, buttonTwo]),
                         borderRadius: BorderRadius.circular(40)),
                     child: Container(
                       width: screenWidth,
@@ -256,14 +250,14 @@ class signInPage extends GetWidget<AuthService> {
 
             Future.delayed(const Duration(seconds: 3), () {
               EasyLoading.dismiss();
-              (kIsWeb ? null : Get.back());
+              (kIsWeb ? null : Navigator.pop(context));
             });
           }).onError((error, stackTrace) {
             EasyLoading.showError(
               error.toString(),
             );
             EasyLoading.dismiss();
-            (kIsWeb ? null : Get.back());
+            (kIsWeb ? null : Navigator.pop(context));
           });
         } on FirebaseAuthException catch (e) {
           if (e.code == 'user-not-found') {
@@ -277,14 +271,14 @@ class signInPage extends GetWidget<AuthService> {
         EasyLoading.showError('Unable to locate user');
         Future.delayed(const Duration(seconds: 2), () {
           EasyLoading.dismiss();
-          (kIsWeb ? null : Get.back());
+          (kIsWeb ? null : Navigator.pop(context));
         });
       });
     } catch (e) {
       Future.delayed(const Duration(seconds: 2), () {
         EasyLoading.showError('Something went wrong');
         EasyLoading.dismiss();
-        (kIsWeb ? null : Get.back());
+        (kIsWeb ? null : Navigator.pop(context));
       });
     }
   }

@@ -12,6 +12,9 @@ import 'package:gymtogym/main.dart';
 import 'package:flutter/material.dart';
 import '../main.dart';
 
+var screenHeight;
+var screenWidth;
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -20,12 +23,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-
-
-
   @override
   Widget build(BuildContext context) {
+    screenHeight = MediaQuery.of(context).size.height;
+    screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       drawer: const HomepageDrawer(),
       appBar: AppBar(
@@ -255,7 +256,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-
     );
   }
 }

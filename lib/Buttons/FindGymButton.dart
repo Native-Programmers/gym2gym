@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 
 import '../main.dart';
 
+var screenHeight, screenWidth;
+
 class FindGymButton extends StatelessWidget {
   const FindGymButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    screenWidth = MediaQuery.of(context).size.width;
+    screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
       width: screenWidth / 2.1,
       height: 60,
@@ -35,7 +39,7 @@ class FindGymButton extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(4.0),
                   child: Icon(
-                    Icons.location_on_outlined  ,
+                    Icons.location_on_outlined,
                     color: Colors.deepOrange,
                     size: 40.0,
                   ),

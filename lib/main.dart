@@ -2,26 +2,26 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get/get_navigation/get_navigation.dart';
-import 'package:gymtogym/screens/LoginPage.dart';
+import 'package:gymtogym/Services/authController.dart';
 import 'package:flutter/material.dart';
-import 'package:gymtogym/screens/wrapper/wrapper.dart';
-
-import 'Services/binding.dart';
+// import 'package:gymtogym/screens/wrapper/wrapper.dart';
+import 'package:get/get.dart';
 
 late double screenWidth;
 late double screenHeight;
-final Color bgColor = Color(0xffFFA07A);
-final Color buttonOne = Color(0xffE9967A);
-final Color buttonTwo = Color(0xffDDA0DD);
-final Color dHeader = Color(0xffFF7F50);
-final Color bgColorTwo = Color(0xffffb3b3);
-final Color bgColorThree = Color(0xffff7f4d);
-final Color IconColor = Color(0xffff471a);
+const Color bgColor = Color(0xffFFA07A);
+const Color buttonOne = Color(0xffE9967A);
+const Color buttonTwo = Color(0xffDDA0DD);
+const Color dHeader = Color(0xffFF7F50);
+const Color bgColorTwo = Color(0xffffb3b3);
+const Color bgColorThree = Color(0xffff7f4d);
+const Color IconColor = Color(0xffff471a);
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp().then((value) {
+    Get.put(AuthController());
+  });
   // setPathUrlStrategy();
   runApp(const MainScreen());
 }
@@ -66,8 +66,11 @@ class _MainScreenState extends State<MainScreen> {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       builder: EasyLoading.init(),
-      initialBinding: AuthBinding(),
-      home: Wrapper(),
+      home: const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
     );
   }
 }

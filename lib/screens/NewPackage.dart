@@ -4,11 +4,15 @@ import 'package:gymtogym/Buttons/RecommendedButton.dart';
 import 'package:gymtogym/main.dart';
 import 'package:flutter/material.dart';
 
+var screenHeight, screenWidth;
+
 class NewPackage extends StatelessWidget {
   const NewPackage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    screenWidth = MediaQuery.of(context).size.width;
+    screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         backgroundColor: bgColor,
         appBar: AppBar(

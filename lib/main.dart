@@ -2,8 +2,12 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:gymtogym/screens/LoginPage.dart';
 import 'package:flutter/material.dart';
+import 'package:gymtogym/screens/wrapper/wrapper.dart';
+
+import 'Services/binding.dart';
 
 late double screenWidth;
 late double screenHeight;
@@ -59,10 +63,11 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       builder: EasyLoading.init(),
-      home: const signInPage(),
+      initialBinding: AuthBinding(),
+      home: Wrapper(),
     );
   }
 }

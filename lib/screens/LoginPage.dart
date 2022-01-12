@@ -1,11 +1,15 @@
 // ignore_for_file: camel_case_types
+// import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/route_manager.dart';
 import 'package:gymtogym/ProjectAssets/functions.dart';
 import 'package:flutter/material.dart';
+import 'package:gymtogym/Services/authService.dart';
 import 'package:gymtogym/screens/SignupPage.dart';
 import '../main.dart';
 
@@ -17,22 +21,15 @@ var isIdActive = true;
 var user_email;
 var auth, fdata;
 
-class signInPage extends StatefulWidget {
-  const signInPage({Key? key}) : super(key: key);
-
+class singInPage extends GetWidget {
   @override
-  _signInPageState createState() => _signInPageState();
+  Widget build(BuildContext context) {
+    return Container();
+  }
 }
 
-class _signInPageState extends State<signInPage> {
-  final _formKey = GlobalKey<FormState>();
-  @override
-  void initState() {
-    auth = FirebaseAuth.instance;
-    fdata = FirebaseFirestore.instance;
-    super.initState();
-  }
-
+class signInPage extends GetWidget<AuthService> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
@@ -54,31 +51,6 @@ class _signInPageState extends State<signInPage> {
                 child: TextFormField(
                   textAlign: TextAlign.center,
                   controller: _id,
-                  // onChanged: (value) async {
-                  //   if (value.length >= 8) {
-                  //     try {
-                  //       await fdata
-                  //           .collection('userinfo')
-                  //           .doc(_id.text)
-                  //           .get()
-                  //           .then((value) {
-                  //         setState(() {
-                  //           user_email = value['email'];
-                  //           isPasswordActive = true;
-                  //         });
-                  //         EasyLoading.showSuccess('User found');
-                  //         return;
-                  //       }).onError((error, stackTrace) {
-                  //         EasyLoading.dismiss();
-                  //         EasyLoading.showError('Unable to locate user');
-                  //       });
-                  //     } catch (e) {
-                  //       EasyLoading.showError(e.toString());
-                  //       EasyLoading.dismiss();
-                  //     }
-                  //   }
-                  // },
-
                   decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(
                           vertical: 3, horizontal: 10),
@@ -142,9 +114,7 @@ class _signInPageState extends State<signInPage> {
                       ),
                       suffixIcon: IconButton(
                         onPressed: () {
-                          setState(() {
-                            hide = !hide;
-                          });
+                          hide = !hide;
                         },
                         icon: Icon(hide
                             ? Icons.remove_red_eye
@@ -195,8 +165,7 @@ class _signInPageState extends State<signInPage> {
                                   },
                                 ),
                               ));
-                      signInUser(id: _id.text, password: _password.text)
-                          .then((value) => EasyLoading.dismiss());
+                      controller.login(id: _id.text, password: _password.text);
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -285,14 +254,16 @@ class _signInPageState extends State<signInPage> {
             // Navigator.pop(context);
             EasyLoading.showSuccess('Login Successful');
 
-            Future.delayed(Duration(seconds: 3), () {
+            Future.delayed(const Duration(seconds: 3), () {
               EasyLoading.dismiss();
+              (kIsWeb ? null : Get.back());
             });
           }).onError((error, stackTrace) {
             EasyLoading.showError(
               error.toString(),
             );
             EasyLoading.dismiss();
+            (kIsWeb ? null : Get.back());
           });
         } on FirebaseAuthException catch (e) {
           if (e.code == 'user-not-found') {
@@ -304,14 +275,16 @@ class _signInPageState extends State<signInPage> {
         return;
       }).onError((error, stackTrace) {
         EasyLoading.showError('Unable to locate user');
-        Future.delayed(Duration(seconds: 2), () {
+        Future.delayed(const Duration(seconds: 2), () {
           EasyLoading.dismiss();
+          (kIsWeb ? null : Get.back());
         });
       });
     } catch (e) {
-      Future.delayed(Duration(seconds: 2), () {
+      Future.delayed(const Duration(seconds: 2), () {
         EasyLoading.showError('Something went wrong');
         EasyLoading.dismiss();
+        (kIsWeb ? null : Get.back());
       });
     }
   }

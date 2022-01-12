@@ -1,15 +1,16 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
+import 'package:gymtogym/Services/authService.dart';
+import 'package:gymtogym/screens/Homepage.dart';
+import 'package:gymtogym/screens/LoginPage.dart';
 
-class Wrapper extends StatefulWidget {
-  const Wrapper({Key? key}) : super(key: key);
-
-  @override
-  _WrapperState createState() => _WrapperState();
-}
-
-class _WrapperState extends State<Wrapper> {
+class Wrapper extends GetWidget<AuthService> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Obx(() {
+      return Get.find<AuthService>().user != null
+          ? const HomePage()
+          : singInPage();
+    });
   }
 }

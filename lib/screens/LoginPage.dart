@@ -155,6 +155,9 @@ class _signInPageState extends State<signInPage> {
                             backgroundColor: Colors.transparent,
                             elevation: 0,
                             content: Container(
+                              height: 100,
+                              width: 100,
+                              color: Colors.transparent,
                               child: Lottie.asset('assets/gifs/dumbell.json'),
                             )),
                       );

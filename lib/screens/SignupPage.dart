@@ -603,60 +603,6 @@ class _SignUpPageState extends State<SignUpPage> {
       },
     );
   }
-
-  // Future phoneAuth(String mobile, BuildContext context) async {
-  //   FirebaseAuth _auth = FirebaseAuth.instance;
-  //
-  //   _auth.verifyPhoneNumber(
-  //       phoneNumber: mobile,
-  //       timeout: const Duration(seconds: 60),
-  //       verificationCompleted: (AuthCredential _authCreds) {},
-  //       verificationFailed: (FirebaseAuthException authException) {
-  //         print(authException.message);
-  //       },
-  //       codeSent: (String verificationId, [int? forceResendingToken]) {
-  //         //show dialog to take input from the user
-  //         showDialog(
-  //             context: context,
-  //             barrierDismissible: false,
-  //             builder: (context) => AlertDialog(
-  //                   title: Text("Enter SMS Code"),
-  //                   content: Column(
-  //                     mainAxisSize: MainAxisSize.min,
-  //                     children: <Widget>[
-  //                       TextField(
-  //                         controller: _codeController,
-  //                       ),
-  //                     ],
-  //                   ),
-  //                   actions: <Widget>[
-  //                     FlatButton(
-  //                       child: Text("Done"),
-  //                       textColor: Colors.white,
-  //                       color: Colors.redAccent,
-  //                       onPressed: () {
-  //                         FirebaseAuth auth = FirebaseAuth.instance;
-  //
-  //                         smsCode = _codeController.text.trim();
-  //
-  //                         _credential = PhoneAuthProvider.credential(
-  //                             verificationId: verificationId, smsCode: smsCode);
-  //                         auth.signInWithCredential(_credential).then((result) {
-  //                           print('Success ${result.credential}');
-  //                         }).catchError((e) {
-  //                           print(e);
-  //                         });
-  //                       },
-  //                     )
-  //                   ],
-  //                 ));
-  //       },
-  //       codeAutoRetrievalTimeout: (String verificationId) {
-  //         verificationId = verificationId;
-  //         print(verificationId);
-  //         print("Timout");
-  //       });
-  // }
 }
 
 Widget getTextField(String hintText, TextEditingController _controller) {

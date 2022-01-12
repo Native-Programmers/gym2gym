@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_phone_auth_handler/firebase_phone_auth_handler.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gymtogym/Services/authController.dart';
 import 'package:flutter/material.dart';
@@ -63,12 +64,14 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      builder: EasyLoading.init(),
-      home: const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
+    return FirebasePhoneAuthProvider(
+      child: GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        builder: EasyLoading.init(),
+        home: const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
         ),
       ),
     );

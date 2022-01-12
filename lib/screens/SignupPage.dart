@@ -1,16 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dropdown_search/dropdown_search.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:dropdown_search/dropdown_search.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_phone_auth_handler/firebase_phone_auth_handler.dart';
 import 'package:flutter/foundation.dart';
+// import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:gymtogym/main.dart';
 import 'package:flutter/material.dart';
+import 'package:gymtogym/screens/otp.dart';
 // import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:otp_text_field/otp_field.dart';
-import 'package:otp_text_field/style.dart';
+// import 'package:otp_text_field/otp_field.dart';
+// import 'package:otp_text_field/style.dart';
 
 final name = TextEditingController();
 final fName = TextEditingController();
@@ -25,7 +29,7 @@ String dropdownValue = 'Male';
 String _dropdownValue = 'LHR';
 bool isVerified = false;
 var reg_date = DateTime.now();
-var number, mobile;
+var number, mobile, smsCode, _credential;
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({Key? key}) : super(key: key);
@@ -221,14 +225,11 @@ class _SignUpPageState extends State<SignUpPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: MediaQuery.of(context).size.width / 2,
+                    width: MediaQuery.of(context).size.width / 1.5,
                     child: Center(
                       child: IntlPhoneField(
                         decoration: const InputDecoration(
                           labelText: 'Phone Number',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(),
-                          ),
                         ),
                         initialCountryCode: 'PK',
                         onChanged: (phone) {
@@ -258,85 +259,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                             Navigator.pop(context);
                                           }),
                                     ))
-                            : (kIsWeb
-                                ? (await _auth
-                                    .signInWithPhoneNumber(mobile.toString())
-                                    .then((value) {
-                                    TextEditingController otp =
-                                        TextEditingController();
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          bool isChecked = false;
-                                          return StatefulBuilder(
-                                              builder: (context, setState) {
-                                            return AlertDialog(
-                                              content: OTPTextField(
-                                                length: 6,
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                fieldWidth: 80,
-                                                style: TextStyle(fontSize: 17),
-                                                textFieldAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                fieldStyle:
-                                                    FieldStyle.underline,
-                                                onCompleted: (pin) async {
-                                                  await value
-                                                      .confirm(otp.text)
-                                                      .then((value) =>
-                                                          print(value))
-                                                      .onError(
-                                                          (error, stackTrace) =>
-                                                              print(error));
-                                                },
-                                              ),
-                                              title: const Text(
-                                                'OTP',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              actions: <Widget>[
-                                                InkWell(
-                                                  child: const Text('OK'),
-                                                  onTap: () async {
-                                                    if (otp.text.length == 6) {
-                                                      await value
-                                                          .confirm(otp.text)
-                                                          .then((value) =>
-                                                              print(value))
-                                                          .onError((error,
-                                                                  stackTrace) =>
-                                                              print(error));
-                                                    }
-                                                  },
-                                                ),
-                                              ],
-                                            );
-                                          });
-                                        });
-                                  }))
-                                : (await _auth.verifyPhoneNumber(
-                                    phoneNumber: mobile.toString(),
-                                    verificationFailed:
-                                        (FirebaseAuthException e) {
-                                      if (e.code == 'invalid-phone-number') {
-                                        print(
-                                            'The provided phone number is not valid.');
-                                      } else {
-                                        print(e.code);
-                                      }
-                                    },
-                                    codeSent: (String verificationId,
-                                        int? forceResendingToken) {},
-                                    verificationCompleted: (PhoneAuthCredential
-                                        phoneAuthCredential) {},
-                                    codeAutoRetrievalTimeout:
-                                        (String verificationId) {},
-                                  ))));
+                            : (Get.to(OTP(mobile: mobile))));
                       }),
                 ],
               ),
@@ -371,8 +294,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           borderRadius: BorderRadius.circular(40))),
                   child: Ink(
                     decoration: BoxDecoration(
-                        gradient:
-                            LinearGradient(colors: [buttonOne, buttonTwo]),
+                        gradient: const LinearGradient(
+                            colors: [buttonOne, buttonTwo]),
                         borderRadius: BorderRadius.circular(40)),
                     child: Container(
                       width: screenWidth,
@@ -680,6 +603,60 @@ class _SignUpPageState extends State<SignUpPage> {
       },
     );
   }
+
+  // Future phoneAuth(String mobile, BuildContext context) async {
+  //   FirebaseAuth _auth = FirebaseAuth.instance;
+  //
+  //   _auth.verifyPhoneNumber(
+  //       phoneNumber: mobile,
+  //       timeout: const Duration(seconds: 60),
+  //       verificationCompleted: (AuthCredential _authCreds) {},
+  //       verificationFailed: (FirebaseAuthException authException) {
+  //         print(authException.message);
+  //       },
+  //       codeSent: (String verificationId, [int? forceResendingToken]) {
+  //         //show dialog to take input from the user
+  //         showDialog(
+  //             context: context,
+  //             barrierDismissible: false,
+  //             builder: (context) => AlertDialog(
+  //                   title: Text("Enter SMS Code"),
+  //                   content: Column(
+  //                     mainAxisSize: MainAxisSize.min,
+  //                     children: <Widget>[
+  //                       TextField(
+  //                         controller: _codeController,
+  //                       ),
+  //                     ],
+  //                   ),
+  //                   actions: <Widget>[
+  //                     FlatButton(
+  //                       child: Text("Done"),
+  //                       textColor: Colors.white,
+  //                       color: Colors.redAccent,
+  //                       onPressed: () {
+  //                         FirebaseAuth auth = FirebaseAuth.instance;
+  //
+  //                         smsCode = _codeController.text.trim();
+  //
+  //                         _credential = PhoneAuthProvider.credential(
+  //                             verificationId: verificationId, smsCode: smsCode);
+  //                         auth.signInWithCredential(_credential).then((result) {
+  //                           print('Success ${result.credential}');
+  //                         }).catchError((e) {
+  //                           print(e);
+  //                         });
+  //                       },
+  //                     )
+  //                   ],
+  //                 ));
+  //       },
+  //       codeAutoRetrievalTimeout: (String verificationId) {
+  //         verificationId = verificationId;
+  //         print(verificationId);
+  //         print("Timout");
+  //       });
+  // }
 }
 
 Widget getTextField(String hintText, TextEditingController _controller) {

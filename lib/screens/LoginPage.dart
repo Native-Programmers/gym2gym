@@ -152,14 +152,23 @@ class _signInPageState extends State<signInPage> {
                       showDialog(
                         context: context,
                         builder: (_) => AlertDialog(
-                            backgroundColor: Colors.transparent,
-                            elevation: 0,
-                            content: Container(
-                              height: 100,
-                              width: 100,
-                              color: Colors.transparent,
-                              child: Lottie.asset('assets/gifs/dumbell.json'),
-                            )),
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                          content: SpinKitFadingCircle(
+                              itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              color: Colors.black.withAlpha(25),
+                              height: MediaQuery.of(context).size.height,
+                              width: MediaQuery.of(context).size.width,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color:
+                                      index.isEven ? Colors.red : Colors.green,
+                                ),
+                              ),
+                            );
+                          }),
+                        ),
                       );
                       AuthController.authInstance
                           .login(id: _id.text.trim(), password: _password.text);

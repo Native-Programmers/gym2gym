@@ -10,13 +10,13 @@ import 'package:get/get.dart';
 
 late double screenWidth;
 late double screenHeight;
-const Color bgColor = Color(0xffFFA07A);
-const Color buttonOne = Color(0xffE9967A);
-const Color buttonTwo = Color(0xffDDA0DD);
-const Color dHeader = Color(0xffFF7F50);
-const Color bgColorTwo = Color(0xffffb3b3);
-const Color bgColorThree = Color(0xffff7f4d);
-const Color IconColor = Color(0xffff471a);
+const Color bgColor = Color(0xFF212332);
+const Color buttonOne = Color(0xFF2A2D3E);
+const Color buttonTwo = Color(0xff0e5480);
+const Color dHeader = Color(0xFF2A2D3E);
+const Color bgColorTwo = Color(0xFF2A2D3E);
+const Color bgColorThree = Color(0xFF212332);
+const Color IconColor = Color(0xFFC7C7D4);
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

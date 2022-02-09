@@ -30,6 +30,7 @@ class HomepageDrawer extends StatelessWidget {
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       Text(
                         'User ID:',
@@ -37,7 +38,17 @@ class HomepageDrawer extends StatelessWidget {
                         style: TextStyle(color: Colors.white),
                       ),
                       Text(
-                        'User Name:',
+                        '           LHR-0006',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Text(
+                        'User Name: ',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Text(
+                        '            USAMA IQBAL',
                         textAlign: TextAlign.start,
                         style: TextStyle(color: Colors.white),
                       ),
@@ -46,50 +57,89 @@ class HomepageDrawer extends StatelessWidget {
                 ],
               )),
           ListTile(
-            leading: Icon(Icons.home),
-            title: Text("Home"),
+            leading: Icon(
+              Icons.home,
+              color: Colors.deepOrange,
+            ),
+            title: Text(
+              "Home",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
+            ),
             onTap: () {
               Navigator.pop(context);
             },
           ),
           ListTile(
-            leading: Icon(Icons.edit_outlined),
-            title: Text("Edit Info"),
+            leading: Icon(Icons.edit_outlined, color: Colors.deepOrange),
+            title: Text(
+              "Edit Info",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
+            ),
             onTap: () {
               Navigator.pop(context);
             },
           ),
           ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text("Setting"),
+            leading: const Icon(Icons.quick_contacts_dialer_rounded,
+                color: Colors.deepOrange),
+            title: const Text(
+              "Contact Us,",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
+            ),
             onTap: () {
               Navigator.pop(context);
             },
           ),
           ListTile(
-            leading: const Icon(Icons.quick_contacts_dialer_rounded),
-            title: const Text("Contact Us"),
+            leading: const Icon(Icons.help_outline, color: Colors.deepOrange),
+            title: const Text(
+              "Help",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
+            ),
             onTap: () {
               Navigator.pop(context);
             },
           ),
           ListTile(
-            leading: const Icon(Icons.help_outline),
-            title: const Text("Help"),
+            leading: const Icon(Icons.more_sharp, color: Colors.deepOrange),
+            title: const Text(
+              "About",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
+            ),
             onTap: () {
               Navigator.pop(context);
             },
           ),
           ListTile(
-            leading: const Icon(Icons.more_sharp),
-            title: const Text("About"),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.logout),
-            title: const Text("LogOut"),
+            leading: const Icon(Icons.logout, color: Colors.deepOrange),
+            title: const Text(
+              "LogOut",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
+            ),
             onTap: () {
               AuthController.authInstance.signOut();
             },

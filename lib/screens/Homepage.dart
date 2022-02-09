@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       drawer: const HomepageDrawer(),
       appBar: AppBar(
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: Color(0xFF252132),
         centerTitle: true,
         title: const Text(
           'GYMTOGYM',
@@ -48,6 +48,8 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: bgColor,
       body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Stack(alignment: Alignment.center, children: [
               Container(
@@ -81,19 +83,21 @@ class _HomePageState extends State<HomePage> {
                 top: 110,
                 left: 0,
                 child: Row(
-                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
                       width: 10,
                     ),
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [
                         Text(
                           'User ID: ',
                           textAlign: TextAlign.end,
                           style: TextStyle(
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
@@ -102,6 +106,7 @@ class _HomePageState extends State<HomePage> {
                           'User Name: ',
                           textAlign: TextAlign.end,
                           style: TextStyle(
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
@@ -110,6 +115,7 @@ class _HomePageState extends State<HomePage> {
                           'Package ID: ',
                           textAlign: TextAlign.end,
                           style: TextStyle(
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
@@ -118,6 +124,7 @@ class _HomePageState extends State<HomePage> {
                           'Expiry Date: ',
                           textAlign: TextAlign.end,
                           style: TextStyle(
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
@@ -140,28 +147,31 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [
                         Text(
-                          'LHR-001 ',
+                          'LHR-006 ',
                           textAlign: TextAlign.start,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                              color: Colors.blueGrey),
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
                         ),
                         Text(
-                          'Uzair Inshallah ',
+                          'Usama Iqbal ',
                           textAlign: TextAlign.start,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                              color: Colors.blueGrey),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: Colors.white,
+                          ),
                         ),
                         Text(
-                          'Lahore-001 ',
+                          '0120-001 ',
                           textAlign: TextAlign.start,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                              color: Colors.blueGrey),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: Colors.white,
+                          ),
                         ),
                         Text(
                           '28-6-2022 ',
@@ -169,7 +179,7 @@ class _HomePageState extends State<HomePage> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
-                              color: Colors.blueGrey),
+                              color: Colors.white),
                         ),
                       ],
                     ),
@@ -190,7 +200,7 @@ class _HomePageState extends State<HomePage> {
                     child: const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
-                        'Our Services',
+                        'Services',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,

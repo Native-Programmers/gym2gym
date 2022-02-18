@@ -1,20 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:dropdown_search/dropdown_search.dart';
-// import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_phone_auth_handler/firebase_phone_auth_handler.dart';
 import 'package:flutter/foundation.dart';
-// import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:gymtogym/main.dart';
 import 'package:flutter/material.dart';
 import 'package:gymtogym/screens/otp.dart';
-// import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-// import 'package:otp_text_field/otp_field.dart';
-// import 'package:otp_text_field/style.dart';
+
+
 
 final name = TextEditingController();
 final fName = TextEditingController();

@@ -54,97 +54,106 @@ class _signInPageState extends State<signInPage> {
               ),
               Padding(
                 padding: const EdgeInsets.all(15.0),
-                child: TextFormField(
-                  textAlign: TextAlign.center,
-                  controller: _id,
-                  decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 3, horizontal: 10),
-                      labelText: '    User ID',
-                      labelStyle: const TextStyle(color: Colors.black),
-                      fillColor: Colors.white38,
-                      filled: true,
-                      disabledBorder: OutlineInputBorder(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: 800,
+                  ),
+                  child: TextFormField(
+                    
+                    textAlign: TextAlign.center,
+                    controller: _id,
+                    decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 3, horizontal: 10),
+                        labelText: 'User ID',
+                        labelStyle: const TextStyle(color: Colors.white, fontFamily: 'pp'),
+                        fillColor: Colors.white38,
+                        filled: true,
+                        disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            borderSide: const BorderSide(
+                              color: Colors.black,
+                              width: 2.0,
+                            )),
+                        focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25.0),
                           borderSide: const BorderSide(
-                            color: Colors.black,
-                            width: 2.0,
-                          )),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide: const BorderSide(
-                          color: Colors.blueGrey,
+                            color: Colors.blueGrey,
+                          ),
                         ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                          borderSide: const BorderSide(
-                            color: Colors.blueAccent,
-                            width: 2.0,
-                          ))),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            borderSide: const BorderSide(
+                              color: Colors.blueAccent,
+                              width: 2.0,
+                            ))),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
               ),
               getSizedBox(3),
 
               Padding(
                 padding: const EdgeInsets.all(15.0),
-                child: TextFormField(
-                  obscureText: hide,
-                  textAlign: TextAlign.center,
-                  // enabled: isPasswordActive,
-                  controller: _password,
-                  decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
-                      labelText: 'Password',
-                      labelStyle: const TextStyle(color: Colors.black),
-                      fillColor: Colors.white38,
-                      filled: true,
-                      disabledBorder: OutlineInputBorder(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: 800,
+                  ),
+                  child: TextFormField(
+                    obscureText: hide,
+                    textAlign: TextAlign.center,
+                    controller: _password,
+                    decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
+                        labelText: 'Password',
+                        labelStyle: const TextStyle(color: Colors.white, fontFamily: 'pp'),
+                        fillColor: Colors.white38,
+                        filled: true,
+                        disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            borderSide: const BorderSide(
+                              color: Colors.black,
+                              width: 2.0,
+                            )),
+                        focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25.0),
                           borderSide: const BorderSide(
-                            color: Colors.black,
-                            width: 2.0,
-                          )),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide: const BorderSide(
-                          color: Colors.blueGrey,
+                            color: Colors.blueGrey,
+                          ),
                         ),
-                      ),
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            hide = !hide;
-                          });
-                        },
-                        icon: Icon(hide
-                            ? Icons.remove_red_eye
-                            : Icons.remove_red_eye_outlined),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                          borderSide: const BorderSide(
-                            color: Colors.blueAccent,
-                            width: 2.0,
-                          ))),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter password';
-                    }
-                    return null;
-                  },
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              hide = !hide;
+                            });
+                          },
+                          icon: Icon(hide
+                              ? Icons.remove_red_eye
+                              : Icons.remove_red_eye_outlined),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            borderSide: const BorderSide(
+                              color: Colors.blueAccent,
+                              width: 2.0,
+                            ))),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter password';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
               ),
               getSizedBox(20),
               SizedBox(
-                width: screenWidth / 1.4,
                 height: 45,
                 child: ElevatedButton(
                   onPressed: () {
@@ -184,13 +193,13 @@ class _signInPageState extends State<signInPage> {
                             colors: [buttonOne, buttonTwo]),
                         borderRadius: BorderRadius.circular(40)),
                     child: Container(
-                      width: screenWidth,
+                      width: (kIsWeb)?screenWidth*.3:screenWidth*.6,
                       height: 100,
                       alignment: Alignment.center,
                       child: const Text(
                         'SignIn',
                         style: TextStyle(
-                            fontSize: 24, fontStyle: FontStyle.italic),
+                            fontSize: 24, fontStyle: FontStyle.italic, fontFamily: 'pp'),
                       ),
                     ),
                   ),
@@ -204,11 +213,10 @@ class _signInPageState extends State<signInPage> {
               getSizedBox(4),
               InkWell(
                 onTap: () {},
-                child: const Text('Forgotten Password ?'),
+                child: const Text('Forgotten Password ?', style: TextStyle(fontFamily: 'pp', color: Colors.white),),
               ),
               getDivider(50, 1.5),
               SizedBox(
-                width: screenWidth / 1.1,
                 height: 45,
                 child: ElevatedButton(
                   onPressed: () {
@@ -226,14 +234,20 @@ class _signInPageState extends State<signInPage> {
                         gradient:
                             LinearGradient(colors: [buttonOne, buttonTwo]),
                         borderRadius: BorderRadius.circular(40)),
-                    child: Container(
-                      width: screenWidth,
-                      height: 100,
-                      alignment: Alignment.center,
-                      child: const Text(
-                        'Create a new account',
-                        style: TextStyle(
-                            fontSize: 24, fontStyle: FontStyle.italic),
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        minWidth: 350,
+                      ),
+
+                      child: Container(
+                        width: (kIsWeb)?screenWidth*.3:screenWidth*.8,
+                        height: 100,
+                        alignment: Alignment.center,
+                        child: const Text(
+                          'Create a new account',
+                          style: TextStyle(
+                              fontSize: 24, fontStyle: FontStyle.italic, fontFamily: 'pp'),
+                        ),
                       ),
                     ),
                   ),

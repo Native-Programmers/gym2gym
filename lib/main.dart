@@ -5,7 +5,6 @@ import 'package:firebase_phone_auth_handler/firebase_phone_auth_handler.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gymtogym/Services/authController.dart';
 import 'package:flutter/material.dart';
-// import 'package:gymtogym/screens/wrapper/wrapper.dart';
 import 'package:get/get.dart';
 
 late double screenWidth;
@@ -13,10 +12,11 @@ late double screenHeight;
 const Color bgColor = Color(0xFF212332);
 const Color buttonOne = Color(0xFF2A2D3E);
 const Color buttonTwo = Color(0xff0e5480);
-const Color dHeader = Color(0xFF2A2D3E);
-const Color bgColorTwo = Color(0xFF2A2D3E);
-const Color bgColorThree = Color(0xFF212332);
+const Color dHeader = Color(0xFF59599c);
+const Color bgColorTwo = Color(0xFF2A253E);
+const Color bgColorThree = Color(0xFF597ade);
 const Color IconColor = Color(0xFFC7C7D4);
+const Color containerCol = Color(0xFF003366);
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

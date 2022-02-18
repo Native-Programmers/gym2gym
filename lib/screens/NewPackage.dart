@@ -16,7 +16,7 @@ class NewPackage extends StatelessWidget {
     return Scaffold(
         backgroundColor: bgColor,
         appBar: AppBar(
-          backgroundColor: Colors.deepOrange,
+          backgroundColor: bgColorTwo,
           centerTitle: true,
           title: const Text(
             'GYMTOGYM',
@@ -52,7 +52,7 @@ class NewPackage extends StatelessWidget {
                         Container(
                           width: 500,
                           height: 200,
-                          color: buttonTwo,
+                          color: bgColorThree,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -65,22 +65,29 @@ class NewPackage extends StatelessWidget {
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold)),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 15,
                               ),
-                              Text(
+                              const Text(
                                 'Package Name',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                ),
                               ),
-                              Text(
+                              const Text(
                                 'Package Duration',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                               ),
-                              Text(
+                              const Text(
                                 'Allow Attendance',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               Center(
@@ -88,7 +95,7 @@ class NewPackage extends StatelessWidget {
                                   child: const Text('Activate Package '),
                                   onPressed: () {},
                                   style: ElevatedButton.styleFrom(
-                                      primary: Colors.deepOrange,
+                                      primary: bgColor,
                                       textStyle: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold)),
@@ -113,22 +120,28 @@ class NewPackage extends StatelessWidget {
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold)),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 15,
                               ),
-                              Text(
+                              const Text(
                                 'Package Name',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                               ),
-                              Text(
+                              const Text(
                                 'Package Duration',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                               ),
-                              Text(
+                              const Text(
                                 'Allow Attendance',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               Center(
@@ -136,103 +149,7 @@ class NewPackage extends StatelessWidget {
                                   child: const Text('Activate Package '),
                                   onPressed: () {},
                                   style: ElevatedButton.styleFrom(
-                                      primary: Colors.deepOrange,
-                                      textStyle: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          width: 500,
-                          height: 200,
-                          color: buttonTwo,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ElevatedButton(
-                                child: const Text('Package Type'),
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                    primary: Colors.blueGrey,
-                                    textStyle: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)),
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Text(
-                                'Package Name',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                'Package Duration',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                'Allow Attendance',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Center(
-                                child: ElevatedButton(
-                                  child: const Text('Activate Package '),
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                      primary: Colors.deepOrange,
-                                      textStyle: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          width: 500,
-                          height: 200,
-                          color: bgColorTwo,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ElevatedButton(
-                                child: const Text('Package Type'),
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                    primary: Colors.blueGrey,
-                                    textStyle: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)),
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Text(
-                                'Package Name',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                'Package Duration',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                'Allow Attendance',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Center(
-                                child: ElevatedButton(
-                                  child: const Text('Activate Package '),
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                      primary: Colors.deepOrange,
+                                      primary: bgColor,
                                       textStyle: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold)),

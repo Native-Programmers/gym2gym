@@ -33,25 +33,17 @@ class HomepageDrawer extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       Text(
-                        'User ID:',
+                        'User ID:  LHR-0006',
                         textAlign: TextAlign.start,
                         style: TextStyle(color: Colors.white),
                       ),
+
                       Text(
-                        '           LHR-0006',
+                        '\nUser Name: Usama Iqbal',
                         textAlign: TextAlign.start,
                         style: TextStyle(color: Colors.white),
                       ),
-                      Text(
-                        'User Name: ',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      Text(
-                        '            USAMA IQBAL',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(color: Colors.white),
-                      ),
+
                     ],
                   ),
                 ],

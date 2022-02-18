@@ -14,7 +14,7 @@ class NewPackageButton extends StatelessWidget {
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
-      width: screenWidth / 2.1,
+      width: screenWidth *.45,
       height: 60,
       child: ElevatedButton(
         onPressed: () {

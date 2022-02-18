@@ -8,5 +8,8 @@ getSizedBox(double a)
 
 getDivider(double a, double b)
 {
-  return Divider(height: a,thickness: b,);
+  return Padding(
+    padding: const EdgeInsets.fromLTRB(15,0,15,0),
+    child: Divider(height: a,thickness: b,color: Colors.blueGrey,),
+  );
 }

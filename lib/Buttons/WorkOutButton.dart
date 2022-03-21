@@ -2,6 +2,7 @@ import 'package:gymtogym/screens/Homepage.dart';
 import 'package:flutter/material.dart';
 
 import '../main.dart';
+import '../screens/getData.dart';
 
 var screenHeight, screenWidth;
 
@@ -19,7 +20,7 @@ class WorkOutButton extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const HomePage()),
+            MaterialPageRoute(builder: (context) => const getData()),
           );
         },
         style: ElevatedButton.styleFrom(

@@ -9,7 +9,9 @@ import 'package:get/get.dart';
 
 late double screenWidth;
 late double screenHeight;
+
 const Color bgColor = Color(0xFF212332);
+
 const Color buttonOne = Color(0xFF2A2D3E);
 const Color buttonTwo = Color(0xff0e5480);
 const Color dHeader = Color(0xFF59599c);
@@ -69,6 +71,7 @@ class _MainScreenState extends State<MainScreen> {
         debugShowCheckedModeBanner: false,
         builder: EasyLoading.init(),
         home: const Scaffold(
+
           body: Center(
             child: CircularProgressIndicator(),
           ),
